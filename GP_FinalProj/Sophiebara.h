@@ -1,30 +1,13 @@
-// Sophiebara.h
-#pragma once
+#ifndef SOPHIEBARA_H
+#define SOPHIEBARA_H
 
-#include "SDL.h"
+#include "Map.h"
+#include "MovingMonster.h"
 
-class Sophiebara
-{
+class Sophiebara : public Map {
 public:
     Sophiebara();
-    ~Sophiebara();
-
-    void HandleEvents();
-    void Update(float deltaTime);
-    void Render();
-
-private:
-    // 이미지 관련
-    SDL_Texture* texture_; // the SDL_Texture 
-    SDL_Rect source_rectangle_; // the rectangle for source image
-    SDL_Rect destination_rectangle_; // for destination
-    SDL_Texture* g_flight_sheet_texture_up;
-    SDL_Texture* g_flight_sheet_texture_down;
-    SDL_Texture* g_flight_sheet_texture_left;
-    SDL_Texture* g_flight_sheet_texture_right;
-
-    // 포탈 관련
-    SDL_Texture* portal_texture;
-    SDL_Rect portal_rect_StoD;
-    SDL_Rect portal_rect_StoMi;
+    void SpawnMonsters() override;
 };
+
+#endif // SOPHIEBARA_H

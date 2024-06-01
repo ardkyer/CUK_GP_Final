@@ -1,9 +1,9 @@
 #include "LastBoss.h"
-#include "globals.h"
+#include "GameClass.h"
 #include <SDL_image.h>
-#include <string>
 
-LastBoss::LastBoss() : Map("../../Resource/Map/LastBoss.png"), showBossIntro(true), bossIntroTotalTimer(4.0f), currentFrame(0), frameDuration(1.0f), frameTimer(0.0f), bossMonster(nullptr) {
+LastBoss::LastBoss()
+    : Map("../../Resource/Map/LastBoss.png"), showBossIntro(true), bossIntroTotalTimer(4.0f), currentFrame(0), frameDuration(1.0f), frameTimer(0.0f), bossMonster(nullptr) {
     SpawnMonsters();
 
     // 보스전 인트로 이미지 로드
@@ -98,4 +98,8 @@ void LastBoss::RenderBossHP() {
 
     SDL_SetRenderDrawColor(g_renderer, 255, 255, 255, 255);
     SDL_RenderDrawRect(g_renderer, &hpBarBg);
+}
+
+bool LastBoss::IsShowBossIntro() const {
+    return showBossIntro;
 }

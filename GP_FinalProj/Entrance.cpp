@@ -6,8 +6,8 @@
 
 Entrance::Entrance()
     : Map("../../Resource/Map/Entrance.png") {
-    // �������� �ʱ� ���� �ÿ��� ���͸� �������� ����
-    spawnDelay = 10.0f;  // ù �������������� �ʱ� ���� �ð� ����
+    // 초기 맵 로드 시 몬스터 생성 지연 시간 설정
+    spawnDelay = 10.0f;  // 첫 맵에서는 초기 지연 시간을 길게 설정
 }
 
 void Entrance::SpawnMonsters() {

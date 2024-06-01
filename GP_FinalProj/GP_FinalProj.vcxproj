@@ -134,12 +134,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Bambino.cpp" />
     <ClCompile Include="BossMonster.cpp" />
     <ClCompile Include="ChargingMonster.cpp" />
     <ClCompile Include="Chisam.cpp" />
     <ClCompile Include="Dasol.cpp" />
-    <ClCompile Include="GameClass.cpp" />
     <ClCompile Include="GameClassPhase.h" />
     <ClCompile Include="GamePhases.cpp" />
     <ClCompile Include="globals.cpp" />
@@ -151,22 +149,16 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Entrance.cpp" />
     <ClCompile Include="Map.cpp" />
-    <ClCompile Include="Maria.cpp" />
     <ClCompile Include="Michael.cpp" />
-    <ClCompile Include="Minimap.cpp" />
     <ClCompile Include="Monster.cpp" />
     <ClCompile Include="MovingMonster.cpp" />
     <ClCompile Include="Nicols1.cpp" />
-    <ClCompile Include="Nicols2.cpp" />
-    <ClCompile Include="Nicols3.cpp" />
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="RangedMonster.cpp" />
     <ClCompile Include="Sophiebara.cpp" />
-    <ClCompile Include="Virtus.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Bambino.h" />
     <ClInclude Include="BossMonster.h" />
     <ClInclude Include="ChargingMonster.h" />
     <ClInclude Include="Chisam.h" />
@@ -181,20 +173,15 @@
     <ClInclude Include="K_Npc.h" />
     <ClInclude Include="LastBoss.h" />
     <ClInclude Include="Map.h" />
-    <ClInclude Include="Maria.h" />
     <ClInclude Include="Michael.h" />
-    <ClInclude Include="Minimap.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="MovingMonster.h" />
     <ClInclude Include="Nicols1.h" />
-    <ClInclude Include="Nicols2.h" />
-    <ClInclude Include="Nicols3.h" />
     <ClInclude Include="NPC.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="RangedMonster.h" />
     <ClInclude Include="Sophiebara.h" />
     <ClInclude Include="Statue.h" />
-    <ClInclude Include="Virtus.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

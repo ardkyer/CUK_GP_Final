@@ -2,9 +2,13 @@
 #include "Entrance.h"
 #include "KimSuHwan.h"
 #include "Hall.h"
+#include "Nicols1.h"
+#include "Dasol.h"
+#include "Sophiebara.h"
+#include "Michael.h"
+#include "LastBoss.h"
 #include "globals.h"
 #include "GamePhases.h"
-#include "Minimap.h"
 #include "Health.h"
 #include "Chisam.h"
 #include <iostream>
@@ -27,12 +31,16 @@ int main(int argc, char* argv[]) {
 
     InitGame();
 
-    Minimap minimap(g_renderer);
     Health health(g_renderer);
 
     Entrance entrance;
     KimSuHwan kimsuhwan;
     Hall hall;
+    Nicols1 nicols1;
+    Dasol dasol;
+    Sophiebara sophiebara;
+    Michael michael;
+    LastBoss lastboss;
     Player player;
     Chisam chisam(WINDOW_WIDTH / 20, WINDOW_HEIGHT / 20, g_renderer, font);
 
@@ -62,6 +70,21 @@ int main(int argc, char* argv[]) {
             case PHASE_Hall:
                 player.HandleEvents(e, hall.GetMonsters());
                 break;
+            case PHASE_Nicols1:
+                player.HandleEvents(e, nicols1.GetMonsters());
+                break;
+            case PHASE_Dasol:
+                player.HandleEvents(e, dasol.GetMonsters());
+                break;
+            case PHASE_Sophiebara:
+                player.HandleEvents(e, sophiebara.GetMonsters());
+                break;
+            case PHASE_Michael:
+                player.HandleEvents(e, michael.GetMonsters());
+                break;
+            case PHASE_LastBoss:
+                player.HandleEvents(e, lastboss.GetMonsters());
+                break;
             }
         }
 
@@ -89,45 +112,81 @@ int main(int argc, char* argv[]) {
                     hall.ResetMonsters();  // 다음 맵 초기화
                     break;
                 case PHASE_Hall:
+                    g_current_game_phase = PHASE_Nicols1;
+                    nicols1.ResetMonsters();  // 다음 맵 초기화
+                    break;
+                case PHASE_Nicols1:
+                    g_current_game_phase = PHASE_Dasol;
+                    dasol.ResetMonsters();  // 다음 맵 초기화
+                    break;
+                case PHASE_Dasol:
+                    g_current_game_phase = PHASE_Sophiebara;
+                    sophiebara.ResetMonsters();  // 다음 맵 초기화
+                    break;
+                case PHASE_Sophiebara:
+                    g_current_game_phase = PHASE_Michael;
+                    michael.ResetMonsters();  // 다음 맵 초기화
+                    break;
+                case PHASE_Michael:
+                    g_current_game_phase = PHASE_LastBoss;
+                    lastboss.ResetMonsters();  // 다음 맵 초기화
+                    break;
+                case PHASE_LastBoss:
                     g_current_game_phase = PHASE_Entrance;
-                    entrance.ResetMonsters();  // 다시 처음으로 돌아옴
+                    entrance.ResetMonsters();  // 첫 맵 초기화
                     break;
                 }
-                SetPlayerToCenter(player); // 맵 전환 후 플레이어 위치 중앙으로 설정
+                SetPlayerToCenter(player);
             }
         }
-        else {
-            bool showMinimapAndHealth = true;
 
-            switch (g_current_game_phase) {
-            case PHASE_Entrance:
-                minimap.UpdatePlayerPosition(0);
-                entrance.Update(deltaTime);
-                entrance.Render();
-                chisam.Render();
-                break;
-            case PHASE_KimSuHwan:
-                minimap.UpdatePlayerPosition(1);
-                kimsuhwan.Update(deltaTime);
-                kimsuhwan.Render();
-                break;
-            case PHASE_Hall:
-                minimap.UpdatePlayerPosition(2);
-                hall.Update(deltaTime);
-                hall.Render();
-                break;
-            }
+        bool showMinimapAndHealth = true;
 
-            player.Render();
-
-            if (showMinimapAndHealth) {
-                minimap.Render(g_player_destination_rect.x, g_player_destination_rect.y);
-                health.Render();
-            }
-
-            SDL_RenderPresent(g_renderer);
-            g_last_time_ms = cur_time_ms;
+        switch (g_current_game_phase) {
+        case PHASE_Entrance:
+            entrance.Update(deltaTime);
+            entrance.Render();
+            chisam.Render();
+            break;
+        case PHASE_KimSuHwan:
+            kimsuhwan.Update(deltaTime);
+            kimsuhwan.Render();
+            break;
+        case PHASE_Hall:
+            hall.Update(deltaTime);
+            hall.Render();
+            break;
+        case PHASE_Nicols1:
+            nicols1.Update(deltaTime);
+            nicols1.Render();
+            break;
+        case PHASE_Dasol:
+            dasol.Update(deltaTime);
+            dasol.Render();
+            break;
+        case PHASE_Sophiebara:
+            sophiebara.Update(deltaTime);
+            sophiebara.Render();
+            break;
+        case PHASE_Michael:
+            michael.Update(deltaTime);
+            michael.Render();
+            break;
+        case PHASE_LastBoss:
+            lastboss.Update(deltaTime);
+            lastboss.Render();
+            showMinimapAndHealth = !lastboss.IsShowBossIntro(); // 인트로가 아닌 경우에만 표시
+            break;
         }
+
+        player.Render();
+
+        if (showMinimapAndHealth) {
+            health.Render();
+        }
+
+        SDL_RenderPresent(g_renderer);
+        g_last_time_ms = cur_time_ms;
     }
 
     SDL_DestroyRenderer(g_renderer);

@@ -11,7 +11,6 @@ Map::~Map() {
     }
     for (auto& monster : monsters) {
         delete monster;
-        monster = nullptr;
     }
     monsters.clear();
 }
@@ -20,13 +19,16 @@ void Map::Update(float deltaTime) {
     player_.Update(deltaTime);
 
     // 몬스터 생성 타이머 업데이트
-    spawnTimer += deltaTime;
-    if (spawnTimer >= spawnDelay && !monstersSpawned) {
-        SpawnMonsters();  // 몬스터 생성
-        monstersSpawned = true;  // 몬스터 생성 플래그 설정
+    if (!monstersSpawned) {
+        spawnTimer += deltaTime;
+        if (spawnTimer >= spawnDelay) {
+            SpawnMonsters();  // 몬스터 생성
+            spawnTimer = 0;  // 타이머 리셋
+            monstersSpawned = true;
+        }
     }
 
-    bool allMonstersDefeated = true;
+    bool allMonstersDefeated = !monsters.empty();
     for (auto it = monsters.begin(); it != monsters.end();) {
         (*it)->Update(deltaTime, player_.GetRect());
         if ((*it)->CheckCollisionWithPlayer(player_.GetRect())) {
@@ -39,8 +41,8 @@ void Map::Update(float deltaTime) {
         }
     }
 
-    if (allMonstersDefeated && monsters.empty() && monstersSpawned) {
-        g_phase_transition_timer = 2.0f;
+    if (allMonstersDefeated && monsters.empty()) {
+        g_phase_transition_timer = 2.0f; // 단계 전환 타이머 시작
     }
 }
 
@@ -51,6 +53,7 @@ void Map::Render() {
     for (auto monster : monsters) {
         monster->Render();
     }
+    SDL_RenderPresent(g_renderer);
 }
 
 void Map::HandleEvents() {
@@ -65,14 +68,10 @@ void Map::HandleEvents() {
 void Map::ResetMonsters() {
     for (auto& monster : monsters) {
         delete monster;
-        monster = nullptr;
     }
     monsters.clear();
-    monstersSpawned = false;  // 리셋 시 몬스터 생성 플래그 초기화
-    spawnTimer = 0.0f;  // 타이머 리셋
-
-    // 플레이어 위치 중앙으로 설정
-    player_.SetPosition(WINDOW_WIDTH / 2 - player_.GetRect().w / 2, WINDOW_HEIGHT / 2 - player_.GetRect().h / 2);
+    spawnTimer = 0;  // 스폰 타이머 리셋
+    monstersSpawned = false; // 몬스터 생성 여부 리셋
 }
 
 void Map::LoadBackground(const char* path) {
