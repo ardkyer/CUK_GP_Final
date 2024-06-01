@@ -10,7 +10,7 @@
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
-#include <SDL_image.h> // Include SDL_image
+#include <SDL_image.h> // Include SDL_image push test
 
 void SetPlayerToCenter(Player& player) {
     player.SetPosition(WINDOW_WIDTH / 2 - player.GetRect().w / 2, WINDOW_HEIGHT / 2 - player.GetRect().h / 2);
